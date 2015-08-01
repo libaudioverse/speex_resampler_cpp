@@ -46,4 +46,10 @@ class Resampler {
 /**Can throw any of the above exception classes.*/
 std::shared_ptr<Resampler> createResampler(int inputFrameCount, int inputChannels, int inputSr, int outputSr);
 
+/**This is the same as using a resampler, but is optimized for the case of the static one-time buffer.
+Note that it can throw as well.
+
+This function allocates the output buffer, hence the last two parameters. This can only be approximated ahead of time.*/
+void staticResampler(int inputSr, int outputSr, int channels, int frames, float* data, int *outLength, float** outData);
+
 }

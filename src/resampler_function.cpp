@@ -5,7 +5,7 @@
 
 namespace speex_resampler_cpp {
 
-void staticResamplerKernel(int inputSr, int outputSr, int channels, int frames, float* data, int *outLength, float** outData) {
+void staticResampler(int inputSr, int outputSr, int channels, int frames, float* data, int *outLength, float** outData) {
 	if(inputSr== outputSr) { //copy
 		float* o = (float*)calloc(channels*frames, sizeof(float));
 		if(o == nullptr) throw MemoryAllocationError();
