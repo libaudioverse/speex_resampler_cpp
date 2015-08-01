@@ -19,3 +19,5 @@ No tests are included here; this is an integral part of [libaudioverse](http://g
 It was extracted from these projects to avoid code duplication and because it might be useful to others.
 
 Code here is available under the unlicense.
+Note that the license applying to the speex resampler still applies to the speex resampler.
+It is included here as `license.speex` and left intact in any files takenf from that project.
