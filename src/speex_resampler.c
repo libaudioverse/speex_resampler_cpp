@@ -57,7 +57,8 @@
    The latter both reduces CPU time and makes the algorithm more SIMD-friendly.
 */
 
-//Libaudioverse fix: null out the EXPORT macro because we're not exporting these functions.
+//Speex_resampler_ccpp fix: null out the EXPORT macro because we're not exporting these functions.
+//We intend this library to be linked statically.
 #define EXPORT
 
 #ifdef HAVE_CONFIG_H
