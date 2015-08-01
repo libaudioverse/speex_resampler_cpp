@@ -8,4 +8,5 @@ add_library(speex_resampler_cpp
 src/speex_resampler.c
 src/resampler_class.cpp
 src/resampler_function.cpp
+src/exceptions.cpp
 )

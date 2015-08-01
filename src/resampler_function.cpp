@@ -8,6 +8,7 @@ namespace speex_resampler_cpp {
 void staticResamplerKernel(int inputSr, int outputSr, int channels, int frames, float* data, int *outLength, float** outData) {
 	if(inputSr== outputSr) { //copy
 		float* o = (float*)calloc(channels*frames, sizeof(float));
+		if(o == nullptr) throw MemoryAllocationError();
 		std::copy(data, data+channels*frames, o);
 		*outLength = frames;
 		*outData = o;
@@ -15,8 +16,8 @@ void staticResamplerKernel(int inputSr, int outputSr, int channels, int frames, 
 	}
 	int err;
 	auto resampler=speex_resampler_init(channels, inputSr, outputSr, 10, &err);
-	//Todo: handle memory error.
-	//Todo: if(err != RESAMPLER_ERR_SUCCESS);
+	if(resampler == nullptr || err == RESAMPLER_ERR_ALLOC_FAILED) throw MemoryAllocationError();
+	else if(err != RESAMPLER_ERR_SUCCESS) throw SpeexError(err);
 	unsigned int numer, denom;
 	speex_resampler_get_ratio(resampler, &numer, &denom);
 	//The 200 makes sure that we grab all of it.
