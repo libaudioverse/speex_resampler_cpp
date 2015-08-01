@@ -60,6 +60,9 @@
 //Speex_resampler_ccpp fix: null out the EXPORT macro because we're not exporting these functions.
 //We intend this library to be linked statically.
 #define EXPORT
+//We need this here, too.
+//Otherwise we don't include ther headers properly.
+#define OUTSIDE_SPEEX
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -70,8 +73,9 @@
 static void *speex_alloc (int size) {return calloc(size,1);}
 static void *speex_realloc (void *ptr, int size) {return realloc(ptr, size);}
 static void speex_free (void *ptr) {free(ptr);}
-#include "libaudioverse/speex_resampler.h"
-#include "libaudioverse/speex_arch.h"
+//Speex_resampler_cpp moves the includes.
+#include "speex_resampler.h"
+#include "speex_arch.h"
 #else /* OUTSIDE_SPEEX */
 
 #include "speex/speex_resampler.h"
@@ -79,7 +83,7 @@ static void speex_free (void *ptr) {free(ptr);}
 #include "os_support.h"
 #endif /* OUTSIDE_SPEEX */
 
-#include "libaudioverse/speex_stack_alloc.h"
+#include "speex_stack_alloc.h"
 #include <math.h>
 #include <limits.h>
 

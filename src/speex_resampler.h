@@ -39,6 +39,12 @@
 #ifndef SPEEX_RESAMPLER_H
 #define SPEEX_RESAMPLER_H
 
+/**Speex_resampler_cpp:
+speex_resampler.c includes this header first, so we define the configuration macros here as opposed to in CMakeLists.txt.*/
+#define OUTSIDE_SPEEX
+#define RANDOM_PREFIX speex_resampler_cpp_prefix
+#define FLOATING_POINT
+
 #ifdef OUTSIDE_SPEEX
 
 /********* WARNING: MENTAL SANITY ENDS HERE *************/

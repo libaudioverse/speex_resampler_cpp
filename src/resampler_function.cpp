@@ -1,11 +1,13 @@
+#include <speex_resampler_cpp.hpp>
 #include <algorithm>
 #include <math.h>
+#include "speex_resampler.h"
 
-namespace libaudioverse_implementation {
+namespace speex_resampler_cpp {
 
 void staticResamplerKernel(int inputSr, int outputSr, int channels, int frames, float* data, int *outLength, float** outData) {
 	if(inputSr== outputSr) { //copy
-		float* o = allocArray<float>(channels*frames);
+		float* o = (float*)calloc(channels*frames, sizeof(float));
 		std::copy(data, data+channels*frames, o);
 		*outLength = frames;
 		*outData = o;
@@ -13,8 +15,8 @@ void staticResamplerKernel(int inputSr, int outputSr, int channels, int frames, 
 	}
 	int err;
 	auto resampler=speex_resampler_init(channels, inputSr, outputSr, 10, &err);
-	if(resampler==nullptr) ERROR(Lav_ERROR_MEMORY, "Could not allocate speex resampler.");
-	if(err != RESAMPLER_ERR_SUCCESS) ERROR(Lav_ERROR_INTERNAL, "Resampler error.");
+	//Todo: handle memory error.
+	//Todo: if(err != RESAMPLER_ERR_SUCCESS);
 	unsigned int numer, denom;
 	speex_resampler_get_ratio(resampler, &numer, &denom);
 	//The 200 makes sure that we grab all of it.
@@ -23,7 +25,7 @@ void staticResamplerKernel(int inputSr, int outputSr, int channels, int frames, 
 	//Instead of reallocating, we waste a small amount of ram here.
 	//this is input rate/output rate, so multiply by denom.
 	int size=frames*channels*denom/numer+channels*200;
-	float* o = allocArray<float>(size);
+	float* o = (float*)calloc(size, sizeof(float));
 	//uframes is because speex needs an address to an unsigned int.
 	unsigned int written = 0, consumed;
 	*outLength= 0;
