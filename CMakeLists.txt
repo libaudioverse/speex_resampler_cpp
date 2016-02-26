@@ -4,7 +4,7 @@ project(speex_resampler_cpp)
 
 
 if(CMAKE_COMPILER_IS_GNUC OR CMAKE_COMPILER_IS_GNUCXX)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
