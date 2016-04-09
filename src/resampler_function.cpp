@@ -1,6 +1,7 @@
 #include <speex_resampler_cpp.hpp>
 #include <algorithm>
 #include <math.h>
+#include <inttypes.h>
 #include "speex_resampler.h"
 
 namespace speex_resampler_cpp {
@@ -22,10 +23,10 @@ void staticResampler(int inputSr, int outputSr, int channels, int frames, float*
 	//It is not inconceivable that we might resample by a huge rate.
 	//And speex doesn't let us estimate output.
 	//Instead of reallocating, we waste a small amount of ram here.
-	int size=frames*channels*outputSr/inputSr+channels*200;
+	//Note that the first expression can actually overflow a 32-bit integer.
+	int size=(int)((int64_t)frames*channels*outputSr/inputSr+channels*200);
 	float* o = (float*)calloc(size, sizeof(float));
-	//uframes is because speex needs an address to an unsigned int.
-	unsigned int written = 0, consumed;
+	unsigned int written = 0, consumed = 0;
 	*outLength= 0;
 	int remaining_in =frames, remaining_out = size/channels+200;
 	float* tempData=data, *tempO=o;
